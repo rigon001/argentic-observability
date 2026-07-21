@@ -16,3 +16,7 @@ printf '\n'
 printf '\nNode Exporter metrics endpoint:\n'
 curl -fsS http://localhost:9100/metrics >/dev/null
 printf 'Node Exporter is reachable.\n'
+
+printf '\ncAdvisor metrics endpoint:\n'
+curl -fsS http://localhost:8080/metrics >/dev/null
+printf 'cAdvisor is reachable.\n'
