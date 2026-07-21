@@ -64,3 +64,11 @@ vLLM exposes Prometheus-compatible metrics through:
 
 ```text
 http://localhost:8001/metrics
+
+## Grafana dashboards
+
+Grafana dashboards are provisioned automatically from version-controlled JSON
+files in:
+
+```text
+grafana/dashboards/
