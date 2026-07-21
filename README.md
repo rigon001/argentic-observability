@@ -20,16 +20,37 @@ The work supports UM activities related to distributed Edge-Cloud-HPC agents and
 ## Current architecture
 
 ```text
-Browser
+DGX Spark host
   |
-  +-- localhost:3000 --> Grafana
+  +-- Node Exporter --> host CPU, memory, disk and network
   |
-  +-- localhost:9090 --> Prometheus
-
-Grafana
+  +-- cAdvisor ------> per-container CPU, memory, disk and network
   |
-  +-- queries Prometheus
-
+  v
 Prometheus
   |
-  +-- currently scrapes Prometheus itself
+  v
+Grafana
+
+## Current collectors
+
+| Component | Scope | Port |
+|---|---|---:|
+| Prometheus | Metrics collection and storage | 9090 |
+| Grafana | Queries and visualisation | 3000 |
+| Node Exporter | DGX Spark host metrics | 9100 |
+| cAdvisor | Docker container metrics | 8080 |
+
+## Planned development
+
+- [x] Prometheus and Grafana
+- [x] Node Exporter for host metrics
+- [x] cAdvisor for container metrics
+- [ ] Native vLLM metrics
+- [ ] Native llama.cpp metrics
+- [ ] DGX Spark GPU telemetry through DCGM or NVML
+- [ ] OpenTelemetry instrumentation for Basic Agent
+- [ ] Correlation of OpenTelemetry trace IDs and Basic Agent JSON traces
+- [ ] Reproducible benchmark runner and results schema
+- [ ] Controlled vLLM versus llama.cpp comparison
+- [ ] MLflow integration

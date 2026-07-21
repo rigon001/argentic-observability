@@ -65,6 +65,28 @@ services:
     networks:
       - observability
 
+  cadvisor:
+    image: ghcr.io/google/cadvisor:0.55.1
+    container_name: argentic-cadvisor
+    restart: unless-stopped
+
+    privileged: true
+
+    devices:
+      - /dev/kmsg:/dev/kmsg
+
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+
+    ports:
+      - "127.0.0.1:8080:8080"
+
+    networks:
+      - observability
 networks:
   observability:
     name: argentic-observability
