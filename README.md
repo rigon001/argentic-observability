@@ -20,11 +20,13 @@ The work supports UM activities related to distributed Edge-Cloud-HPC agents and
 ## Current architecture
 
 ```text
-DGX Spark host
+DGX Spark
   |
-  +-- Node Exporter --> host CPU, memory, disk and network
+  +-- Node Exporter ------> host metrics
   |
-  +-- cAdvisor ------> per-container CPU, memory, disk and network
+  +-- cAdvisor -----------> container metrics
+  |
+  +-- vLLM /metrics ------> inference metrics
   |
   v
 Prometheus
@@ -40,13 +42,14 @@ Grafana
 | Grafana | Queries and visualisation | 3000 |
 | Node Exporter | DGX Spark host metrics | 9100 |
 | cAdvisor | Docker container metrics | 8080 |
+| vLLM native metrics | Requests, tokens, latency, queueing and KV cache | 8001 |
 
 ## Planned development
 
 - [x] Prometheus and Grafana
 - [x] Node Exporter for host metrics
 - [x] cAdvisor for container metrics
-- [ ] Native vLLM metrics
+- [x] Native vLLM metrics
 - [ ] Native llama.cpp metrics
 - [ ] DGX Spark GPU telemetry through DCGM or NVML
 - [ ] OpenTelemetry instrumentation for Basic Agent
@@ -54,3 +57,10 @@ Grafana
 - [ ] Reproducible benchmark runner and results schema
 - [ ] Controlled vLLM versus llama.cpp comparison
 - [ ] MLflow integration
+
+## vLLM metrics
+
+vLLM exposes Prometheus-compatible metrics through:
+
+```text
+http://localhost:8001/metrics
