@@ -45,6 +45,26 @@ services:
     networks:
       - observability
 
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:v1.11.1
+    container_name: argentic-node-exporter
+    restart: unless-stopped
+
+    command:
+      - --path.rootfs=/host
+      - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|host|etc)($$|/)
+
+    pid: host
+
+    volumes:
+      - /:/host:ro,rslave
+
+    ports:
+      - "127.0.0.1:9100:9100"
+
+    networks:
+      - observability
+
 networks:
   observability:
     name: argentic-observability
