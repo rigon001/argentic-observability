@@ -20,3 +20,11 @@ printf 'Node Exporter is reachable.\n'
 printf '\ncAdvisor metrics endpoint:\n'
 curl -fsS http://localhost:8080/metrics >/dev/null
 printf 'cAdvisor is reachable.\n'
+
+printf '\nvLLM native metrics:\n'
+
+if curl -fsS http://localhost:8001/metrics >/dev/null 2>&1; then
+  printf 'vLLM metrics endpoint is reachable.\n'
+else
+  printf 'vLLM metrics endpoint is not reachable; the model server may be stopped.\n'
+fi
